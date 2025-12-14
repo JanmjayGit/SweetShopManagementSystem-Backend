@@ -76,18 +76,17 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // FIXED: Specific origins instead of "*"
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5174",                                    // Local Vite dev server
-                "http://localhost:5173",                                    // Alternative React dev server
-                "https://sweet-shop-management-system-fronte-eight.vercel.app",  // Production Vercel deployment
-                "https://*.vercel.app"
+        // Use setAllowedOriginPatterns for wildcard support
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",           // All local ports
+                "https://*.vercel.app"          // All Vercel deployments (production + previews)
         ));
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // CRITICAL: Enable credentials
         config.setExposedHeaders(List.of("Authorization"));
+        config.setMaxAge(3600L); // Cache preflight requests for 1 hour
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
