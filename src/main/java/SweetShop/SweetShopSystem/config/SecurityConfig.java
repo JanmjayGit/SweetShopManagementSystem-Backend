@@ -46,7 +46,7 @@ public class SecurityConfig {
                         // PUBLIC PATHS
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
-                        // Add these lines to allow public access to sweets viewing
+                        // allow public access to sweets viewing
                         .requestMatchers(HttpMethod.GET, "/api/sweets").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/sweets/search").permitAll()
 
@@ -77,22 +77,16 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow all origins for development (you can restrict this later)
         config.addAllowedOriginPattern("*");
 
-        // Allow specific methods
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
 
-        // Allow all headers including Authorization
         config.setAllowedHeaders(Arrays.asList("*"));
 
-        // CRITICAL: Must be false when using allowedOriginPattern("*")
         config.setAllowCredentials(false);
 
-        // Expose Authorization header so frontend can read it
         config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
 
-        // Cache preflight requests for 1 hour
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -18,7 +18,7 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    // 1. CREATE PAYMENT ORDER
+    //  CREATE PAYMENT ORDER
     @PostMapping("/create-order")
     public ResponseEntity<String> createOrder(@RequestBody PaymentDTO dto) {
         try {
@@ -29,7 +29,7 @@ public class PaymentController {
         }
     }
 
-    // 2. VERIFY PAYMENT AFTER SUCCESS
+    //  VERIFY PAYMENT AFTER SUCCESS
     @PostMapping("/verify-payment")
     public ResponseEntity<String> verifyPayment(@RequestBody PaymentVerifyDTO dto) {
         String result = paymentService.verifyPayment(
