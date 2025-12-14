@@ -26,6 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import java.util.Arrays;
 
 @EnableMethodSecurity
 @Configuration
@@ -76,17 +77,23 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Use setAllowedOriginPatterns for wildcard support
-        config.setAllowedOriginPatterns(List.of(
-                "http://localhost:*",           // All local ports
-                "https://*.vercel.app"          // All Vercel deployments (production + previews)
-        ));
+        // Allow all origins for development (you can restrict this later)
+        config.addAllowedOriginPattern("*");
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // CRITICAL: Enable credentials
-        config.setExposedHeaders(List.of("Authorization"));
-        config.setMaxAge(3600L); // Cache preflight requests for 1 hour
+        // Allow specific methods
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
+
+        // Allow all headers including Authorization
+        config.setAllowedHeaders(Arrays.asList("*"));
+
+        // CRITICAL: Must be false when using allowedOriginPattern("*")
+        config.setAllowCredentials(false);
+
+        // Expose Authorization header so frontend can read it
+        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+
+        // Cache preflight requests for 1 hour
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
