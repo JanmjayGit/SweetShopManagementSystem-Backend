@@ -78,8 +78,10 @@ public class SecurityConfig {
 
         // FIXED: Specific origins instead of "*"
         config.setAllowedOrigins(List.of(
-                "http://localhost:5174",  // Your Vite dev server
-                "http://localhost:5173"   // Alternative React dev server
+                "http://localhost:5174",                                    // Local Vite dev server
+                "http://localhost:5173",                                    // Alternative React dev server
+                "https://sweet-shop-management-system-fronte-eight.vercel.app",  // Production Vercel deployment
+                "https://*.vercel.app"
         ));
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
