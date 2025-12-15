@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // public paths
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/health","/api/health/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
                         // allow public access to sweets viewing
                         .requestMatchers(HttpMethod.GET, "/api/sweets").permitAll()
